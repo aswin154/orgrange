@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Home{% endblock %}
 
 {% block nav_block %}
-    {% include 'nav_bar.html' %}
+{% include 'nav_bar.html' %}
 {% endblock %}
 
 {% block content %}
@@ -16,10 +18,18 @@
         <div class="mt-8">
             <a href="#" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Get Started</a>
         </div>
-        </div>
+    </div>
 
-        <br>
-<!--         <img src="static/bg1.jpg" alt="Something wrong"> -->
+    <br>
+    <!--         <img src="static/bg1.jpg" alt="Something wrong"> -->
+
+    <div class="max-w-6xl mx-auto py-2 py-6 xl:px-0">
+        <div class="products flex items-center flex-wrap">
+            {% for product in products %}
+            {% include 'product_list_item.html' %}
+            {% endfor %}
+        </div>
+    </div>
 </section>
 
 {% include 'footer.html' %}
@@ -29,4 +39,5 @@
 
 {% block scripts %}
 <!-- Add any specific scripts for the home page here -->
+<script src="{% static 'js/main.js' %}"></script>
 {% endblock %}

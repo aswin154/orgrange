@@ -2,8 +2,27 @@
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-white text-lg font-semibold">{{ app_name }}</a>
         <div class="flex items-center">
+            {% if user.is_superuser %}
+                <a href="/admin" class="text-white mr-4">Admin Panel</a>
+            {% endif %}
             <a href="#" class="text-white mr-4">Home</a>
             <a href="#" class="text-white mr-4">About</a>
+
+            <!-- Dropdown menu -->
+            <div class="relative">
+                <button id="dropdownButton" class="text-white mr-4 focus:outline-none">
+                    Categories
+                    <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="dropdownMenu" class="hidden absolute bg-white text-gray-700 mt-2 rounded shadow-lg w-48">
+                    {% for category in categories %}
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
             <form action="#" method="GET" class="relative">
                 <input type="text" name="q" placeholder="Search..." class="px-4 py-2 rounded-full text-gray-700" />
                 <button type="submit" class="absolute right-0 top-0 mt-2 mr-2 text-gray-700">
