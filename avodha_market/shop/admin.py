@@ -8,6 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    list_display = ["name", "quantity", "price", "is_available", ]
+    list_editable = ["quantity", "price", "is_available"]
     prepopulated_fields = {"slug": ("name",)}
 
 

@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "accounts",
     "cart",
-    "home",
     "shop",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -65,7 +64,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "home.context_processors.default_values",
+                "shop.context_processors.default_values",
             ],
         },
     },
