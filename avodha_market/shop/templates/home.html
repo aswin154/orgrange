@@ -10,23 +10,26 @@
 
 {% block content %}
 <section class="container mx-auto mt-8">
+
     <div class="text-center">
-
-
         <h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to {{ app_name }}</h1>
         <p class="text-gray-600">{{ tagline }}</p>
         <div class="mt-8">
-            <a href="#" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Get Started</a>
+            <a href="{% url 'search' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Get Started</a>
         </div>
     </div>
 
-    <br>
     <!--         <img src="static/bg1.jpg" alt="Something wrong"> -->
 
     <div class="max-w-6xl mx-auto py-2 py-6 xl:px-0">
         <div class="products flex items-center flex-wrap">
-            {% for product in products %}
+            {% for product in products.object_list %}
             {% include 'product_list_item.html' %}
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{ pg }}" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 {% if products.number == pg %} activate{% endif %}">{{ pg }}</a>
             {% endfor %}
         </div>
     </div>
@@ -38,6 +41,5 @@
 
 
 {% block scripts %}
-<!-- Add any specific scripts for the home page here -->
 <script src="{% static 'js/main.js' %}"></script>
 {% endblock %}
