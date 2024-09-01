@@ -18,7 +18,7 @@ class CartItems(models.Model):
     product = models.ForeignKey(Product, related_name='all_cart_items', on_delete=models.CASCADE)
 
     quantity = models.IntegerField(default=0)
-    special_price = models.IntegerField(blank=True, null=True)
+    special_price = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Cart Items'
