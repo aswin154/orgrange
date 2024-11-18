@@ -10,14 +10,14 @@ from django.urls import reverse
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=150, unique=True)
+    slug = models.SlugField(max_length=150, unique=True, blank=True)
 
     class Meta:
         ordering = ("name",)
         verbose_name_plural = "Categories"
 
     def get_url(self):
-        return reverse('products_in_category', args=[self.slug])
+        return reverse("products_in_category", args=[self.slug])
 
     def __str__(self):
         return self.name
@@ -28,12 +28,12 @@ class Product(models.Model):
 
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150, unique=True, blank=True, null=True)
-    oem = models.CharField(max_length=150, blank=True, null=True)
+    manufacturer = models.CharField(max_length=150, blank=True, null=True)
     description = models.TextField(blank=True)
     quantity = models.IntegerField(default=0)
     available = models.BooleanField(default=True)
     price = models.DecimalField(max_digits=15, decimal_places=2)
-    image = models.ImageField(upload_to='primary_images', blank=True, null=True)
+    image = models.ImageField(upload_to="primary_images", blank=True, null=True)
 
     created_at = models.DateTimeField(blank=True, null=True)
 
@@ -41,7 +41,7 @@ class Product(models.Model):
         ordering = ("-created_at",)
 
     def get_url(self):
-        return reverse('product_details', args=[self.slug])
+        return reverse("product_details", args=[self.slug])
 
     def __str__(self):
         return self.name
