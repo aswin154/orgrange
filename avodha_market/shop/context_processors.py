@@ -6,10 +6,10 @@
 def default_values(request):
     return {
         "app_name": "Avodha Shopping",
-        "tagline": "Your go-to platform for buying stuff.",
-        "footer_about": "Learn more about our mission, vision, and values.",
-        "instagram_url": "#",
-        "facebook_url": "#",
-        "twitter_url": "#",
-        "youtube_url": "#",
+        "tagline": "Your go-to platform for online shopping",
+        "footer_about": "Learn more about our mission, vision and values.",
+        "social_1": "Facebook",
+        "social_1_url": "#",
+        "social_2": "Youtube",
+        "social_2_url": "#",
     }

@@ -12,6 +12,8 @@ class Category(models.Model):
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150, unique=True, blank=True)
 
+    enabled = models.BooleanField(default=True, )
+
     class Meta:
         ordering = ("name",)
         verbose_name_plural = "Categories"
@@ -27,7 +29,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE)
 
     name = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=150, unique=True, blank=True, null=True)
+    slug = models.SlugField(max_length=150, blank=True, null=True)
     manufacturer = models.CharField(max_length=150, blank=True, null=True)
     description = models.TextField(blank=True)
     quantity = models.IntegerField(default=0)
@@ -36,20 +38,24 @@ class Product(models.Model):
     image = models.ImageField(upload_to="primary_images", blank=True, null=True)
 
     created_at = models.DateTimeField(blank=True, null=True)
+    enabled = models.BooleanField(default=True, )
 
     class Meta:
         ordering = ("-created_at",)
 
     def get_url(self):
-        return reverse("product_details", args=[self.slug])
+        return reverse("product_details", args=[self.pk, self.slug])
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
+        # save the object to database to get pk
+        if not self.pk:
+            super(Product, self).save(*args, **kwargs)
+
         if not self.slug:
-            # self.slug = f'{slugify(self.name)}'
-            self.slug = f'{slugify(self.name)}-{str(uuid.uuid4())[:13]}'
+            self.slug = f"{slugify(self.name)}"
 
         if not self.created_at:
             self.created_at = datetime.now()
@@ -63,4 +69,4 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to="product_images", blank=True, null=True)
 
     def __str__(self):
-        return f'{self.product.name}'
+        return f'{self.product.name}-{self.pk}'

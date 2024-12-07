@@ -11,12 +11,15 @@ class ImageInline(admin.TabularInline):
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["name", "slug", "enabled"]
+    list_editable = ["enabled", ]
+
     prepopulated_fields = {"slug": ("name",)}
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["name", "quantity", "price", "available", "image", ]
-    list_editable = ["quantity", "price", "available", "image", ]
+    list_display = ["name", "quantity", "price", "available", "image", "enabled", ]
+    list_editable = ["quantity", "price", "available", "image", "enabled", ]
 
     prepopulated_fields = {"slug": ("name",)}
 

@@ -6,16 +6,16 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 # Create your views here.
 def home(request, category_slug=None):
-    categories = Category.objects.all()
+    categories = Category.objects.filter(enabled=True)
 
     if category_slug is None:
         categ_name = "All Categories"
-        product_list = Product.objects.filter(available=True)[:8]
+        product_list = Product.objects.filter(enabled=True)[:8]
 
     else:
         categ = get_object_or_404(Category, slug=category_slug)
         categ_name = categ.name
-        product_list = Product.objects.filter(category=categ, available=True)[:8]
+        product_list = Product.objects.filter(category=categ, enabled=True)[:8]
 
     paginator = Paginator(product_list, 4)
 
@@ -39,10 +39,10 @@ def home(request, category_slug=None):
     return render(request, 'home.html', context)
 
 
-def product(request, product_slug):
-    product = get_object_or_404(Product, slug=product_slug)
+def product(request, pk, product_slug):
+    product = get_object_or_404(Product, pk=pk)
 
-    categories = Category.objects.all()
+    categories = Category.objects.filter(enabled=True)
     categ_name = "All Categories"
 
     context = {
@@ -55,15 +55,17 @@ def product(request, product_slug):
 
 
 def search(request):
-    categories = Category.objects.all()
+    categories = Category.objects.filter(enabled=True)
     categ_name = "All Categories"
 
     if 'q' in request.GET:
         query = request.GET.get('q')
-        product_list = Product.objects.all().filter(Q(name__icontains=query) | Q(description__icontains=query))
+
+        product_list = Product.objects.filter(enabled=True).filter(
+            Q(name__icontains=query) | Q(description__icontains=query))
 
     else:
-        product_list = Product.objects.filter(available=True)[:8]
+        product_list = Product.objects.filter(enabled=True)[:8]
 
     paginator = Paginator(product_list, 12)
 
