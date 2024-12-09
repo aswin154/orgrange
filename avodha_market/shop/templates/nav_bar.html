@@ -1,31 +1,59 @@
 <nav class="bg-gradient-to-r from-blue-500 to-green-500 p-4">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <a href="{% url 'home' %}" class="text-white text-lg font-semibold">{{ app_name }}</a>
+
+
         <div class="flex items-center">
             {% if user.is_superuser %}
                 <a href="/admin" class="text-white mr-4">Admin Panel</a>
             {% endif %}
 <!--            <a href="#" class="text-white mr-4">Home</a>-->
-            <a href="#" class="text-white mr-4">About</a>
-            <a href="{%  url 'cart_details' %}" class="text-white mr-4">Cart</a>
+<!--            <a href="#" class="text-white mr-4">About</a>-->
 
-            {% if search %}
-            {% else %}
-            <!-- Dropdown menu -->
+            <!-- Account Dropdown menu -->
             <div class="relative">
-                <button id="dropdownButton" class="text-white mr-4 focus:outline-none">
-                    {{ categ_name }}
+                <button id="accountDropdownButton" class="text-white mr-4 focus:outline-none">
+                    {% if user.is_authenticated %} Account {% else %} Login {% endif %}
                     <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
-                <div id="dropdownMenu" class="hidden absolute bg-white text-gray-700 mt-2 rounded shadow-lg w-48">
-                    <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100">All Categories</a>
-                    {% for category in categories %}
-                    <a href="{{ category.get_url }}" class="block px-4 py-2 hover:bg-gray-100">{{ category.name }}</a>
-                    {% endfor %}
+                <div id="accountDropdownMenu" class="hidden absolute bg-white text-gray-700 mt-2 rounded shadow-lg w-48">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100">Account</a>
+                    <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+
+                    {% else %}
+                    <a href="{% url 'login' %}" class="block px-4 py-2 hover:bg-gray-100">Login</a>
+                    {% endif %}
                 </div>
             </div>
+
+            {% if not cart_page %}
+
+            <a href="{%  url 'cart_details' %}" class="text-white mr-4">Cart</a>
+            {% if cart_item_count %}
+                <span class="w-6 h-6 bg-red-400 text-black flex items-center justify-center rounded-full relative -left-3">{{ cart_item_count }}</span>
+            {% endif %}
+
+                {% if search %}
+                {% else %}
+                <!-- Dropdown menu -->
+                <div class="relative">
+                    <button id="dropdownButton" class="text-white mr-4 focus:outline-none">
+                        {{ categ_name }}
+                        <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="dropdownMenu" class="hidden absolute bg-white text-gray-700 mt-2 rounded shadow-lg w-48">
+                        <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100">All Categories</a>
+                        {% for category in categories %}
+                        <a href="{{ category.get_url }}" class="block px-4 py-2 hover:bg-gray-100">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             {% endif %}
 
 <!--        Search Bar-->

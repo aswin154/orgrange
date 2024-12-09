@@ -1,7 +1,10 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+
+from .models import Product, Category
+from cart.models import Cart, CartItems
+from cart.views import get_cart_id
 
 
 # Create your views here.
@@ -45,10 +48,15 @@ def product(request, pk, product_slug):
     categories = Category.objects.filter(enabled=True)
     categ_name = "All Categories"
 
+    ct_id = get_cart_id(request)
+
+    in_cart = CartItems.objects.filter(cart__cart_id=ct_id, product=product).exists()
+
     context = {
         'product': product,
         'categories': categories,
         'categ_name': categ_name,
+        'in_cart': in_cart,
     }
 
     return render(request, 'product.html', context)

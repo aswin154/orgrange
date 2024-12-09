@@ -43,15 +43,24 @@
             </div>
 
             <!-- Add to Cart Button -->
+            {% if in_cart %}
+
+            <a href="{% url 'cart_details' %}">
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Go to Cart
+            </button>
+            </a>
+            {% else %}
+
             <a href="{% url 'add_to_cart' product.pk %}">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Add to Cart
             </button>
             </a>
+            {% endif %}
         </div>
     </div>
 </div>
-
 
 {% endblock %}
 

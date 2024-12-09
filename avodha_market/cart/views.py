@@ -20,7 +20,7 @@ def cart_details(request):
         user_cart = Cart.objects.get(cart_id=cart_id)
 
     except Cart.DoesNotExist:
-        return render(request, 'cart.html', {'no_cart': True})
+        return render(request, 'cart.html', {'no_cart': True, 'cart_page': True})
 
     cart_items = user_cart.cart_items.all()
 
@@ -38,6 +38,7 @@ def cart_details(request):
         "cart_items": cart_items,
         "total_price": total_price,
         "total_items": total_items,
+        "cart_page": True,
     }
 
     return render(request, 'cart.html', context)
@@ -45,6 +46,7 @@ def cart_details(request):
 
 def add_to_cart(request, product_id):
     product = Product.objects.get(pk=product_id)
+    product_slug = product.slug
     cart_id = get_cart_id(request)
 
     try:
@@ -53,13 +55,12 @@ def add_to_cart(request, product_id):
     except Cart.DoesNotExist:
         user_cart = Cart.objects.create(cart_id=cart_id)
 
-    try:
-        cart_item = CartItems.objects.get(cart=user_cart, product=product)
+    if CartItems.objects.filter(cart=user_cart, product=product).exists():
+        return redirect('cart_details')
 
-    except CartItems.DoesNotExist:
-        cart_item = CartItems.objects.create(cart=user_cart, product=product)
+    CartItems.objects.create(cart=user_cart, product=product)
 
-    return redirect('cart_details')
+    return redirect('product_details', product_id, product_slug)
 
 
 def remove_from_cart(request, cart_item_id):
