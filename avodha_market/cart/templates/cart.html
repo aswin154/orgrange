@@ -40,13 +40,31 @@
 
                 <!-- Quantity Selector -->
                 <div class="flex items-center">
-                    <input type="text" name="quantity" value="{{ item.quantity }}" class="w-16 text-center text-gray-700 border rounded-lg" readonly>
+                    <a href="{% url 'decrease_cart' item.pk %}">
+                        <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-3 rounded">-</button>
+                    </a>
+
+                    <input type="text" name="quantity" value="{{ item.quantity }}" class="w-8 text-center text-gray-700 border rounded-lg" readonly>
+
+                    <a href="{% url 'increase_cart' item.pk %}">
+                        <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-3 rounded">+</button>
+                    </a>
                 </div>
 
                 <!-- Total Price for Item -->
                 <div class="text-lg font-semibold text-gray-800">
                     {{ item.total_price }}
                 </div>
+
+                <!--Remove from cart-->
+                <div class="mt-6 text-right">
+                    <a href="{% url 'remove_from_cart' item.pk %}">
+                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Remove
+                    </button>
+                    </a>
+                </div>
+
             </div>
             {% empty %}
             <p class="text-gray-600">Your cart is empty.</p>

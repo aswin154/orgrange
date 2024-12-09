@@ -5,10 +5,6 @@ from .models import Cart, CartItems
 
 
 # Create your views here.
-def create_cart(request):
-    pass
-
-
 def get_cart_id(request):
     ct_id = request.session.session_key
     if not ct_id:
@@ -47,11 +43,10 @@ def cart_details(request):
     return render(request, 'cart.html', context)
 
 
-def add_to_cart(request):
-    product_id = request.GET.get('q')
-
+def add_to_cart(request, product_id):
     product = Product.objects.get(pk=product_id)
     cart_id = get_cart_id(request)
+
     try:
         user_cart = Cart.objects.get(cart_id=cart_id)
 
@@ -64,8 +59,37 @@ def add_to_cart(request):
     except CartItems.DoesNotExist:
         cart_item = CartItems.objects.create(cart=user_cart, product=product)
 
-    return redirect('cart')
+    return redirect('cart_details')
 
 
-def remove_from_cart(request):
-    pass
+def remove_from_cart(request, cart_item_id):
+    cart_id = get_cart_id(request)
+    cart_item = CartItems.objects.get(pk=cart_item_id)
+
+    if cart_id == cart_item.cart.cart_id:
+        cart_item.delete()
+
+    return redirect('cart_details')
+
+
+def increase_cart(request, cart_item_id):
+    cart_id = get_cart_id(request)
+    cart_item = CartItems.objects.get(pk=cart_item_id)
+
+    if cart_id == cart_item.cart.cart_id:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect('cart_details')
+
+
+def decrease_cart(request, cart_item_id):
+    cart_id = get_cart_id(request)
+    cart_item = CartItems.objects.get(pk=cart_item_id)
+
+    if cart_id == cart_item.cart.cart_id:
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+
+    return redirect('cart_details')
