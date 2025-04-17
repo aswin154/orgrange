@@ -43,7 +43,7 @@ def home(request, category_slug=None):
 
 
 def product(request, pk, product_slug):
-    product = get_object_or_404(Product, pk=pk)
+    product = get_object_or_404(Product, pk=pk, slug=product_slug)
 
     categories = Category.objects.filter(enabled=True)
     categ_name = "All Categories"
@@ -88,7 +88,7 @@ def search(request):
         products = paginator.page(paginator.num_pages)
 
     context = {
-        'search': True,
+        'no_search': True,
         'categories': categories,
         'categ_name': categ_name,
         'products': products,

@@ -32,6 +32,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=150, blank=True, null=True)
     manufacturer = models.CharField(max_length=150, blank=True, null=True)
     description = models.TextField(blank=True)
+    details = models.TextField(blank=True)
     quantity = models.IntegerField(default=0)
     available = models.BooleanField(default=True)
     price = models.DecimalField(max_digits=15, decimal_places=2)

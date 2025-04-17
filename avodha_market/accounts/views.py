@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
+from .models import SiteSettings
 
 
 # Create your views here.
@@ -21,7 +22,7 @@ def login(request):
 
 
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html', {'no_search': True})
 
 
 def logout(request):
@@ -30,9 +31,19 @@ def logout(request):
 
 
 def register(request):
+    settings = SiteSettings.objects.first()
+
+    # see if site settings object exists and create one with default options if it does not exist
+    if not settings:
+        SiteSettings.objects.create()
+        settings = SiteSettings.objects.first()
+
+    if settings.disable_registration:
+        messages.warning(request, "Registration disabled, please login using existing credentials.")
+        return redirect('login')
+
     if request.method == 'POST':
         name = request.POST['name']
-        phone = request.POST['phone']
         email = request.POST['email']
         username = request.POST['username']
         password = request.POST['password']
@@ -51,7 +62,5 @@ def register(request):
             print('User created')
             return redirect('login')
 
-        return redirect('/')
-
     else:
-        return render(request, 'login.html')
+        return render(request, 'register.html')

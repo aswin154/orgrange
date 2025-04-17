@@ -18,7 +18,7 @@
             <div class="mt-6 text-right">
                 <a href="{% url 'search' %}">
                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    Add something to the cart
+                    Add Something to the Cart
                 </button>
                 </a>
             </div>
@@ -85,7 +85,11 @@
         <!-- Checkout Button -->
         <div class="mt-6 text-right">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                {% if cart_items %}
                 Proceed to Checkout
+                {% else %}
+                <a href="{% url 'search' %}">Add Some Items to the Cart</a>
+                {% endif %}
             </button>
         </div>
         {% endif %}
