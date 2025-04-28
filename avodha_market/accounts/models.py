@@ -1,10 +1,12 @@
-
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
 # Create your models here.
 class SiteSettings(models.Model):
-    disable_registration = models.BooleanField(default=True)
+    name = models.CharField(max_length=100, default="Site Settings")
+    allow_registration = models.BooleanField("Allow Registration", default=False)
+    allow_user_products = models.BooleanField("Allow User Upload", default=False)
 
     def save(self, *args, **kwargs):
         if not self.pk and SiteSettings.objects.exists():

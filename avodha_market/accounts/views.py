@@ -38,7 +38,7 @@ def register(request):
         SiteSettings.objects.create()
         settings = SiteSettings.objects.first()
 
-    if settings.disable_registration:
+    if not settings.allow_registration:
         messages.warning(request, "Registration disabled, please login using existing credentials.")
         return redirect('login')
 

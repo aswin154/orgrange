@@ -38,7 +38,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=15, decimal_places=2)
     image = models.ImageField(upload_to="primary_images", blank=True, null=True)
 
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     enabled = models.BooleanField(default=True, )
 
     class Meta:
@@ -57,9 +57,6 @@ class Product(models.Model):
 
         if not self.slug:
             self.slug = f"{slugify(self.name)}"
-
-        if not self.created_at:
-            self.created_at = datetime.now()
 
         super(Product, self).save(*args, **kwargs)
 
