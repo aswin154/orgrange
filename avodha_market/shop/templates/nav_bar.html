@@ -2,7 +2,6 @@
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <a href="{% url 'home' %}" class="text-white text-lg font-semibold">{{ app_name }}</a>
 
-
         <div class="flex items-center">
             {% if user.is_superuser %}
                 <a href="/admin" class="text-white mr-4">Admin Panel</a>
