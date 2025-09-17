@@ -63,6 +63,26 @@ Containerization: Docker & Docker Compose
 ### 2. Install dependencies
 
 ```
+   cd avodha_market
    pip install -r requirements.txt
 ```
 
+### 3. Environment variables
+
+```
+   touch .env
+   # Edit .env files to add necessary environment variables
+   # Optionally configure postgres database credentials
+```
+
+### 4. Initial setup
+```
+   python manage.py migrate
+   python manage.py collectstatic  # This collects all static files into static_files directory
+   python manage.py createsuperuser  # to create the admin account.
+```
+
+### 5. Run Development Server
+```
+   python manage.py runserver  # The development server is running on port 8000
+```

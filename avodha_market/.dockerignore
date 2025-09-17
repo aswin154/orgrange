@@ -1,0 +1,11 @@
+.env
+db
+db.sqlite3
+mysql.conf
+media
+static
+*/static/
+*/__pycache__/
+static_files
+tailwindcss*
+input.css

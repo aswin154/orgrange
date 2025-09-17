@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block nav_block %}
+{% include 'nav_bar.html' %}
+{% endblock %}
+
+{% block content %}
+<body class="bg-gray-300">
+<div class="flex items-center justify-center">
+    <!-- Register Form Container -->
+    <div id="registerForm" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-16 mb-8">
+        {% if messages %}
+            {% for message in messages %}
+                <label for="username" class="block text-red-700 font-semibold mb-2">{{message}}</label>
+            {% endfor %}
+        {% endif %}
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Register</h2>
+
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+
+            <!-- Name Field -->
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-semibold mb-2">Name</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your name" required>
+            </div>
+
+            <!-- Name Field -->
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                <input type="text" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your email address" required>
+            </div>
+
+            <!-- Username Field -->
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-semibold mb-2">Username</label>
+                <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your username" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 font-semibold mb-2">Password</label>
+                <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your password" required>
+            </div>
+
+            <!-- Register Button -->
+            <div>
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <!-- Forgot Password Link -->
+        <div class="mt-4 text-center">
+            <a href="{% url 'login' %}" class="text-blue-500 hover:text-blue-700">Already have an account ??</a>
+        </div>
+
+
+    </div>
+</div>
+
+{% include 'footer.html' %}
+</body>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
