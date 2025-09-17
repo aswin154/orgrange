@@ -41,3 +41,28 @@ Frontend: HTML, CSS, JavaScript, Tailwind CSS
 Authentication: Django's built-in authentication
 
 Containerization: Docker & Docker Compose
+
+
+### Prerequisites
+
+- Python 3.10+
+- Docker and/or Docker Compose
+- Git
+
+
+## Local Development
+
+### 1. Clone and setup virtual environment
+
+```
+   git clone https://github.com/aswin154/orgrange.git
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### 2. Install dependencies
+
+```
+   pip install -r requirements.txt
+```
+
